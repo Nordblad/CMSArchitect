@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - CMS Architect</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    @RenderSection("styles", false)
+</head>
+<body>
+
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+
+    <script src="~/Scripts/jquery-2.2.1.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
+    <script src="~/Scripts/jss-min.js"></script>
+    @RenderSection("scripts", false)
+</body>
+</html>

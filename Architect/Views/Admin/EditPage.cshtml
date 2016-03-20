@@ -1,0 +1,56 @@
+﻿@model Architect.Models.EditPageViewModel
+@{
+    ViewBag.Title = "Edit page";
+}
+
+<main class="site-container">
+    @{ 
+        var html = Model.Template.Template1;
+        foreach (var c in Model.Content)
+        {
+            html = html.Replace(c.Key, "<div class=\"section-container\">" + c.Value.First().Content1 + "</div>");
+        }
+    }
+    @Html.Raw(html);
+</main>
+
+<div id="menu">
+    @Html.ActionLink("Back to start", "Index")
+    <div id="menu-settings">
+    </div>
+    <div id="menu-modules">
+        <div class="module"><h5>Heading</h5><p>Text underneath.</p></div>
+        <div class="module"><h5>Heading</h5><p>Aliquam porta, ipsum quis porta sollicitudin, justo turpis tristique eros, ac tincidunt lacus ligula eu mi. Duis tempor vitae ipsum id consequat. Maecenas ullamcorper ante non odio consectetur, ac tristique metus fringilla.</p></div>
+        <div class="module"><h5>Footer</h5><p>003 555 221 - asd@test.com</p></div>
+        <div class="module">
+            <div style="background-color: darkred; color: whitesmoke; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-size: 26px; text-align: center">LOGO</div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script>
+                $('.section-container').sortable({ addClasses: false }); //, items: "div:not(.module-required)"
+                $('#menu-modules').sortable({ connectWith: '.section-container', helper: 'clone', addClasses: false });
+    </script>
+}
+
+@section styles
+{
+    <link href='https://fonts.googleapis.com/css?family=Slabo+27px' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Roboto:400,500' rel='stylesheet' type='text/css'>
+    <link href="~/Content/Style.css" rel="stylesheet" />
+    <style type="text/css">
+        .section-container {
+            border: 1px dashed darkred;
+        }
+                #menu {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 300px;
+        }
+    </style>
+}
+

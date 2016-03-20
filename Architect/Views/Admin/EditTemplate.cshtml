@@ -1,0 +1,117 @@
+﻿@model Architect.Models.Template
+@{
+    ViewBag.Title = "Edit template " + Model.TemplateName;
+}
+@*<style title="userstyle" type="text/css">
+    h5 { text-decoration: underline; }
+</style>*@
+<div class="site-container">
+    <main id="template">
+        @Html.Raw(Model.Template1.Replace("[Content]", "<div class='module module-content'><p>[Content]</p></div>"))
+    </main>
+</div>
+
+
+<div id="menu">
+    @Html.ActionLink("Back to start", "Index")
+    <div id="menu-settings">
+        <label><select data-attr="color" data-element="p"><option value="darkred">Red</option><option value="white">White</option><option value="darkslategray">Gray</option></select>Text color</label><br />
+        <label><input type="color" data-attr="background-color" data-element="body" />Background color</label><br />
+        <label><select data-attr="font-size" data-element="p"><option value="10px">10</option><option value="12px">12</option><option value="16px">16</option></select>Text size</label><br />
+        <label><select data-attr="background-color" data-element=".module"><option value="darkred">Red</option><option value="white">White</option><option value="lightgray">Grey</option></select>Module bg</label><br />
+        <button id="savebtn">Save</button>
+     </div>
+    <div id="menu-modules">
+        <div class="module"><h5>Heading</h5><p>Text underneath.</p></div>
+        <div class="module"><h5>Heading</h5><p>Aliquam porta, ipsum quis porta sollicitudin, justo turpis tristique eros, ac tincidunt lacus ligula eu mi. Duis tempor vitae ipsum id consequat. Maecenas ullamcorper ante non odio consectetur, ac tristique metus fringilla.</p></div>
+        <div class="module"><h5>Footer</h5><p>003 555 221 - asd@test.com</p></div>
+        <div class="module">
+            <div style="background-color: darkred; color: whitesmoke; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-size: 26px; text-align: center">LOGO</div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+
+
+        function changeStyle(element, attr, val) {
+            console.log('Changing', element, attr, 'to', val);
+            jss.set(element, {
+                [attr]: val,
+            });
+            //jss.set('p', { 'color': 'red' });
+            //console.log('TEST:', { attr : val})
+            console.log(JSON.stringify(jss.get()));
+        }
+        $(function () {
+            $('#template').sortable({ addClasses: false }); //, items: "div:not(.module-required)"
+            $('#menu-modules').sortable({ connectWith: '#template', helper: 'clone', addClasses: false });
+            $('#menu-settings select, #menu-settings input').on('change', function () {
+                changeStyle($(this).attr('data-element'), $(this).attr('data-attr'), $(this).val());
+            });
+            $('#savebtn').on('click', function () {
+                console.log(jss.get());
+                @*$.post('@Url.Action("SaveTemplate", new { id = Model.TemplateId })', { TemplateHtml: $('main').html(), Styles: jss.get() }, function (data) {
+                    console.log(data);
+                });*@
+                $.post('@Url.Action("SaveTemplate", new { id = Model.TemplateId })', { Html: $('#template').html(), Styles: jss.get() }, function (data) {
+                    console.log(data);
+                });
+                //$('<style>').appendTo('#template').html('h5 { background-color: red; }');
+            });
+            @*var r = getRules();
+            $.each(r, function (i, v) {
+                if (v.selectorText == 'h5') {
+                    console.log('It exists:', v);
+                    v.style['font-size'] = '24px';
+                    v.style.color = 'blue';
+                    console.log('It changed:', v);
+                    $.post('@Url.Action("TestPost", new { id = Model.TemplateId })', { html: $('#template').html() }, function (data) {
+                        console.log(data);
+                    });
+                }
+            });*@
+        });
+        //function getStyle(title) {
+        //    var sheets = document.styleSheets;
+        //    for (var i = 0; i < sheets.length; i++) {
+        //        if (sheets[i].title == title) {
+        //            return sheets[i];
+        //        }
+        //    }
+        //}
+        //function getRules() {
+        //    var sheets = document.styleSheets;
+        //    for (var i = 0; i < sheets.length; i++) {
+        //        if (sheets[i].title == 'userstyle') {
+        //            sheets[i].insertRule("p { font-weight: bold; }", 1);
+        //            return sheets[i].rules;
+        //        }
+        //    }
+        //}
+    </script>
+}
+
+@section styles 
+{
+    <link href='https://fonts.googleapis.com/css?family=Slabo+27px' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Roboto:400,500' rel='stylesheet' type='text/css'>
+    <link href="~/Content/Style.css" rel="stylesheet" />
+    <style type="text/css">
+        #menu {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 300px;
+        }
+
+        .module-content {
+            background-color: #ccc;
+            text-align: center;
+            border: 2px solid darkslategray;
+        }
+    </style>
+}

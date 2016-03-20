@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "Admin Home";
+}
+@model Architect.Models.AdminHomeViewModel
+
+<h2>CMS Architect</h2>
+
+<h5>Pages</h5>
+<ul>
+    @foreach (var page in Model.Pages)
+    {
+        <li>@page.PageName (@page.PageId) ACTIONLINK</li>
+    }
+</ul>
+@using (Html.BeginForm("NewPage"))
+{
+    @Html.AntiForgeryToken()
+    <h6>New page</h6>
+    <select name="template">
+        @foreach (var temp in Model.Templates)
+        {
+            <option value="@temp.TemplateId">@temp.TemplateName</option>
+        }
+    </select><br />
+    <input name="name" type="text" placeholder="Page name" /><br />
+    <button type="submit">Save</button>
+}
+
+<h5>Templates</h5>
+<ul>
+    @foreach (var template in Model.Templates)
+    {
+        <li>@template.TemplateName (@template.TemplateId) @Html.ActionLink("Edit", "EditTemplate", new { id = template.TemplateId })</li>
+    }
+</ul>
+<h5>Content</h5>
+<ul>
+    @foreach (var content in Model.Content)
+    {
+        <li>@content.Content1 (@content.ContentId) ACTIONLINK</li>
+    }
+</ul>
