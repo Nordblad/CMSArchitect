@@ -1,0 +1,147 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CMS</title>
+    <!--<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">-->
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    @*<script src="jss-min.js"></script>*@
+    <style type="text/css">
+        * {
+            box-sizing: border-box;
+        }
+
+
+        #menu {
+            max-width: 250px;
+            position: absolute;
+            right: 0;
+            top: 0;
+            background-color: lightblue;
+        }
+
+        .module {
+            z-index: 1;
+            display: block;
+            background-color: lightgray;
+            padding: 15px;
+            margin: 10px;
+            position: relative;
+        }
+
+        p {
+            color: darkslategray;
+        }
+        .container { max-width: 800px; margin: auto; }
+        #content {
+            width: 500px;
+        }
+
+        .fa {
+            cursor: pointer;
+        }
+
+        .selected::before {
+            content: " ";
+            position: absolute;
+            z-index: -1;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 1px solid gray;
+        }
+
+        #ol {
+            position: absolute;
+            top: 0;
+            right: -28px;
+            margin: 0;
+            padding: 0;
+        }
+
+            #ol li {
+                display: block;
+                list-style-type: none;
+                padding: 3px;
+                background-color: darkslategray;
+                color: whitesmoke;
+                margin-bottom: 2px;
+                border-radius: 4px;
+                text-align: center;
+            }
+
+                #ol li:hover {
+                    background-color: darkgray;
+                }
+    </style>
+    <script>
+        $(function () {
+            $('#content .module .row').prop('contenteditable', true);
+            $('#content').sortable({
+                handle: '.handle',
+                receive: function(event, ui) { ui.helper.first().removeAttr('style').prop('contenteditable', true); },
+                axis: 'y'
+            });//.disableSelection();
+            $('#menu .module').draggable({
+                connectToSortable: '#content',
+                revert: 'invalid',
+                helper: 'clone',
+                addClasses: false
+            }).disableSelection();
+            $('main').on('click', '.module:not(.selected)', function () {
+                  $('.selected').removeClass('selected');
+                  $(this).addClass('selected').append($('#ol').hide().fadeIn('fast'));
+              });
+              $('.remove').on('click', function() {
+                  $(this).parent().parent().hide('fast', function() {
+                      $(this).remove();
+                  });
+                  $('#ol').appendTo('body');
+              });
+            //$('.menuitem').draggable({ connectWith: '#content', helper: 'clone' })
+              $('#btn').click(function() {
+                  jss.set('p', {
+                      'color': 'red'
+                  });
+                  jss.set('h5', {
+                      'color': 'darkred',
+                      'text-decoration': 'underline'
+                  });
+                  var x = jss.get();
+                  $.each(x, function(i, v) {
+                      console.log(v, typeof v);
+                  });
+                  console.log(jss.get());
+              });
+          });
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <main id="content">
+            <div class="module"><div class="row"><h5>Sektion!</h5><p>Come on the light is gone, hope slowly dying.</p></div></div>
+            <div class="module"><h5>Menu</h5><p>Maybe I should have invited Clarence.</p></div>
+            <div class="module"><h5>Sektion!</h5><p>Life is wasted on people.</p></div>
+        </main>
+        <div id="menu">
+            <div class="module"><h5>Modul</h5><p>Lorem ipsum</p></div>
+            <div class="module"><h5>Annan sak</h5><p>Dolor sit amet.</p></div>
+        </div>
+    </div>
+    <button id="btn">Byt</button>
+    <ul id="ol">
+        <li class="handle"><i class="fa fa-arrows"></i></li>
+        <li class="remove"><i class="fa fa-trash"></i></li>
+    </ul>
+</body>
+
+</html>
+

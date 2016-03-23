@@ -150,6 +150,7 @@
     <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
     <Content Include="Scripts\jss-min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Views\Admin\MinimalTest.html" />
     <Content Include="Web.config" />
     <Content Include="Views\Admin\EditTemplate.cshtml" />
   </ItemGroup>
@@ -178,6 +179,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Scripts\jquery-2.2.1.min.map" />
     <Content Include="Views\Admin\EditPage.cshtml" />
+    <Content Include="Views\Admin\Mini.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

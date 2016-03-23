@@ -39,7 +39,7 @@
         function changeStyle(element, attr, val) {
             console.log('Changing', element, attr, 'to', val);
             jss.set(element, {
-                [attr]: val,
+                [attr]: val
             });
             //jss.set('p', { 'color': 'red' });
             //console.log('TEST:', { attr : val})
@@ -56,7 +56,7 @@
                 @*$.post('@Url.Action("SaveTemplate", new { id = Model.TemplateId })', { TemplateHtml: $('main').html(), Styles: jss.get() }, function (data) {
                     console.log(data);
                 });*@
-                $.post('@Url.Action("SaveTemplate", new { id = Model.TemplateId })', { Html: $('#template').html(), Styles: jss.get() }, function (data) {
+                $.post('@Url.Action("SaveTemplate", new { id = Model.TemplateId })', { Html: $('#template').html(), cssStyles: jss.get() }, function (data) {
                     console.log(data);
                 });
                 //$('<style>').appendTo('#template').html('h5 { background-color: red; }');
