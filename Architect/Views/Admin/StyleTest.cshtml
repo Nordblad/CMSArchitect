@@ -1,0 +1,262 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>RESP</title>
+    <script src="~/Scripts/jscolor.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <script src="~/Scripts/jss-min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+        * {
+            box-sizing: border-box;
+        }
+
+        .site-container {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .row {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .row div {
+            padding: 5px;
+            line-height: 1.5;
+        }
+
+        @@media screen and (max-width: 500px) {
+            .row {
+                flex-direction: column;
+            }
+        }
+        .overlay {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.5)
+        }
+        .dialog {
+            font-family: 'Helvetica Neue';
+            font-weight: 400;
+            max-width: 350px;
+            padding:  15px;
+            border-radius: 5px;
+            display: none;
+            background-color: whitesmoke;
+            text-align: center;
+            position: relative;
+        }
+        .dialog p {
+            margin: 10px 0 20px;
+        }
+        .visible {
+            display: block;
+        }
+        .dialog button {
+            font-family: 'Helvetica Neue';
+            text-transform: uppercase;
+            background-color: darkslategray;
+            margin: 0 8px;
+            border-radius: 5px;
+            color: white;
+            padding: 6px 12px;
+            border: 0;
+            cursor: pointer;
+        }
+        .dialog-close {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            cursor: pointer;
+            color: darkgray;
+        }
+        .dialog-close:hover { color: darkred; transition: all 0.2s ease-in-out}
+    </style>
+
+    <link href="~/Content/ArcTheme.css" rel="stylesheet" id="userStyle"/>
+</head>
+
+<body>
+    <div class="site-container">
+        @*<div class="row 3-col">
+            <div>
+                Laudem verear conclusionemque usu no, te putent apeirian ocurreret usu. Affert iuvaret eos an. Mea in causae aliquip utroque,
+                et his nobis offendit. Cu sed ornatus placerat, per illum expetendis id, et quod vidisse expetenda pro.
+            </div>
+            <div>
+                Laudem verear conclusionemque usu no, te putent apeirian ocurreret usu. Affert iuvaret eos an. Mea in causae aliquip utroque,
+                et his nobis offendit. Cu sed ornatus placerat, per illum expetendis id, et quod vidisse expetenda pro.
+            </div>
+            <div>
+                Ei vel timeam scripta forensibus, mei vitae causae ea. Libris aliquando ius ne, sea no utamur offendit imperdiet, habeo iriure
+                postulant nec te. Vel ei epicurei ullamcorper, mel ad alia commune probatus.
+            </div>
+        </div>*@
+        <div class="row 2-col">
+            <div>
+                Laudem verear conclusionemque usu no, te putent apeirian ocurreret usu. Affert iuvaret eos an. Mea in causae aliquip utroque,
+                et his nobis offendit. Cu sed ornatus placerat, per illum expetendis id, et quod vidisse expetenda pro.
+                <button id="btnDeletePage">Delete</button>
+            </div>
+
+            <div>
+                Laudem verear conclusionemque usu no, te putent apeirian ocurreret usu. Affert iuvaret eos an. Mea in causae aliquip utroque,
+                et his nobis offendit. Cu sed ornatus placerat, per illum expetendis id, et quod vidisse expetenda pro.
+            </div>
+        </div>
+        @*<div id="style-settings">
+            <input data-class="bread" data-attr="line-height" style="width: 100%" id="border-rad" type="range" min="1" max="5" step="0.5">
+        </div>*@
+        <main>
+            <p class="bread">Laudem verear conclusionemque usu no, te putent apeirian ocurreret usu. Affert iuvaret eos an. Mea in causae aliquip utroque,
+                et his nobis offendit. Cu sed ornatus placerat, per illum expetendis id, et quod vidisse expetenda pro.</p>
+            <p class="bread">Ei vel timeam scripta forensibus, mei vitae causae ea. Libris aliquando ius ne, sea no utamur offendit imperdiet, habeo iriure
+                postulant nec te. Vel ei epicurei ullamcorper, mel ad alia commune probatus.</p>
+        </main>
+        <fieldset>
+            <legend>Bread</legend>
+            <input type="number" min="0" max="5" step="0.5" data-class=".bread" data-attr="lineHeight"/>LH<br/>
+            <select data-class=".bread" data-attr="color">
+                <option value="white">White</option>
+                <option value="red">Red</option>
+                <option value="black">Black</option>
+            </select>
+            <select data-class=".bread" data-attr="fontFamily">
+                <option value="Helvetica">Helvetica</option>
+                <option value="Times New Roman">Times</option>
+                <option value="Arial">Arial</option>
+                <option value="Comic Sans">CS</option>
+            </select>
+        </fieldset>
+        <fieldset>
+            <legend>Background</legend>
+            <input class="jscolor" data-class="body" data-attr="background-color"/>
+            @*<select data-class="body" data-attr="background-color">
+                <option value="white">White</option><option value="red">Red</option><option value="green">Green</option>
+            </select>*@
+        </fieldset>
+    </div>
+    <div class="overlay">
+        <div id="delete-dialog" class="dialog">
+            <i class="fa fa-times dialog-close"></i>
+            <p>
+                Are you sure you want to delete Page2?
+            </p>
+            <button class="cancel">Cancel</button><button class="ok">Delete</button>
+        </div>
+    </div>
+    <script>
+        $(function() {
+            $('#btnDeletePage').on('click', function() {
+                $('.overlay').fadeIn(50).css('display', 'flex');
+                $('#delete-dialog').addClass('visible');
+            });
+            $('.dialog-close, .cancel').on('click', function() {
+                $('.visible').removeClass('visible');
+                $('.overlay').fadeOut('fast');
+            });
+
+
+
+            //console.log('P LINE HEIGHT:', $('p').css('line-height'));
+
+            //function getStyle(className) {
+            //    var classes = document.getElementById('userStyle').sheet.rules;// document.styleSheets[0].rules || document.styleSheets[0].cssRules;
+            //    for (var x = 0; x < classes.length; x++) {
+            //        if (classes[x].selectorText == className) {
+            //            (classes[x].cssText) ? console.log(1, classes[x].cssText) : console.log(2, classes[x].style.cssText);
+            //        }
+            //    }
+            //}
+            //getStyle('p');
+            //sheet.insertRule("body { background-color: red }", 0);
+            //$('#style-settings input').on('change', function() {
+                
+            //})
+
+            //var rules = document.getElementById('userStyle').sheet.rules;
+            //console.log('RULES:', rules);
+            //for (var i = 0; i < rules.length; i++) {
+            //    var r = rules[i];
+            //    //console.log(r.selectorText + ':');
+            //    for (var k = 0; k < r.style.length; k++) {
+            //        console.log('    ' + r.style[k] + ": " + r['backgroundColor']);
+            //    }
+            //    //console.log(r,r.style);
+            //}
+
+            //NEW
+            //console.log('NEW');
+            //var classes = document.getElementById('userStyle').sheet.rules;
+            //for (var x = 0; x < classes.length; x++) {
+            //    console.log(classes[x].selectorText, ": ", classes[x].cssText);
+            //    //if (classes[x].selectorText == className) {
+            //    //    (classes[x].cssText) ? alert(classes[x].cssText) : alert(classes[x].style.cssText);
+            //    //}
+            //}
+            //console.log(3, $('.bread').css('line-height'));
+            $('input, select').each(function(i, v) {
+                var el = $(this).attr('data-class');
+                var att = $(this).attr('data-attr');
+                console.log(el, att, getUserStyle(att, el));
+                $(this).val(getUserStyle(att, el));
+            });
+            $('select, input').on('change', function() {
+                changeStyle($(this).attr('data-class'), $(this).attr('data-attr'), $(this).val());
+            });
+            console.log(0);
+            //var rules = document.getElementById('userStyle').sheet.rules;
+            //for (var i = 0; i < rules.length; i++) {
+            //    var r = rules[i];
+            //    console.log(r.selectorText, r.style['lineHeight']);
+            //}
+            function getStyleRuleValue(style, selector) {
+                for (var i = 0; i < document.styleSheets.length; i++) {
+                    var mysheet = document.styleSheets[i];
+                    var myrules = mysheet.cssRules ? mysheet.cssRules : mysheet.rules;
+                    if (myrules === undefined || myrules === null || myrules.length <= 0) {
+                        continue;
+                    }
+                    for (var j = 0; j < myrules.length; j++) {
+                        if (myrules[j].selectorText && myrules[j].selectorText.toLowerCase() === selector.toLowerCase()) {
+                            return myrules[j].style[style];
+                        }
+                    }
+                }
+            }
+            function getUserStyle(style, selector) {
+                var myRules = document.getElementById('userStyle').sheet.rules;
+                for (var j = 0; j < myRules.length; j++) {
+                    if (myRules[j].selectorText && myRules[j].selectorText.toLowerCase() === selector.toLowerCase()) {
+                        return myRules[j].style[style];
+                    }
+                }
+                return 'INGEN!';
+            }
+            function changeStyle(element, attr, val) {
+                console.log('Changing', element, attr, 'to', val);
+                var myObj = new Object;
+                myObj[attr] = val;
+                jss.set(element, myObj);
+                //jss.set('p', { 'color': 'red' });
+                //console.log('TEST:', { attr : val})
+                console.log(JSON.stringify(jss.get()));
+            }
+        })
+    </script>
+</body>
+
+</html>
+

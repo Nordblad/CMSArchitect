@@ -1,0 +1,19 @@
+﻿body {
+    background-color: lightgray;
+}
+
+p {
+    line-height: 1;
+}
+
+.bread {
+    color: black;
+    line-height: 1;
+    font-family: 'Helvetica';
+}
+
+h5 {
+    font-size: 20px;
+    margin: 0;
+    padding: 0;
+}

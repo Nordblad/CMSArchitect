@@ -103,6 +103,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\ArcTheme.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
@@ -148,6 +149,7 @@
     <Content Include="Scripts\jquery-2.2.1.min.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
+    <Content Include="Scripts\jscolor.min.js" />
     <Content Include="Scripts\jss-min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Views\Admin\MinimalTest.html" />
@@ -180,6 +182,7 @@
     <Content Include="Scripts\jquery-2.2.1.min.map" />
     <Content Include="Views\Admin\EditPage.cshtml" />
     <Content Include="Views\Admin\Mini.cshtml" />
+    <Content Include="Views\Admin\StyleTest.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
