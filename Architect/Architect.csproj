@@ -106,6 +106,7 @@
     <Content Include="Content\ArcTheme.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\DefaultTheme.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\Style.css" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -162,8 +163,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201603241712292_cssadded.cs" />
+    <Compile Include="Migrations\201603241712292_cssadded.Designer.cs">
+      <DependentUpon>201603241712292_cssadded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AdminHomeViewModel.cs" />
     <Compile Include="Models\Content.cs" />
+    <Compile Include="Models\CssFile.cs" />
     <Compile Include="Models\DBModel.cs" />
     <Compile Include="Models\Page.cs" />
     <Compile Include="Models\PageContent.cs" />
@@ -192,6 +199,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201603241712292_cssadded.resx">
+      <DependentUpon>201603241712292_cssadded.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

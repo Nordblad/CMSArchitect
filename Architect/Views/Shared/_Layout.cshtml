@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - CMS Architect</title>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+
+    <link href="~/Content/ArcTheme.css" rel="stylesheet" id="arcStyle"/>
+    <link href="@ViewBag.Css" rel="stylesheet" type="text/css" id="userStyle" />
     @RenderSection("styles", false)
 </head>
 <body>
@@ -16,6 +19,7 @@
     <script src="~/Scripts/jquery-2.2.1.min.js"></script>
     <script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
     <script src="~/Scripts/jss-min.js"></script>
+    <script src="~/Scripts/jscolor.min.js"></script>
     @RenderSection("scripts", false)
 </body>
 </html>

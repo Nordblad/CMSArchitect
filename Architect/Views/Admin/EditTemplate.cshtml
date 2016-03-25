@@ -1,13 +1,14 @@
-﻿@model Architect.Models.Template
+﻿@model Architect.Models.DesignTemplateViewModel
 @{
     ViewBag.Title = "Edit template " + Model.TemplateName;
+    ViewBag.Css = Model.CssUrl;
 }
 @*<style title="userstyle" type="text/css">
     h5 { text-decoration: underline; }
 </style>*@
-<div class="site-container">
+<div class="page-container">
     <main id="template">
-        @Html.Raw(Model.Template1.Replace("[Content]", "<div class='module module-content'><p>[Content]</p></div>"))
+        @Html.Raw(Model.TemplateHtml.Replace("[Content]", "<div class='module module-content tag' data-tag='Content'><p>[Content]</p></div>"))
     </main>
 </div>
 
@@ -15,15 +16,34 @@
 <div id="menu">
     @Html.ActionLink("Back to start", "Index")
     <div id="menu-settings">
-        <label><select data-attr="color" data-element="p"><option value="darkred">Red</option><option value="white">White</option><option value="darkslategray">Gray</option></select>Text color</label><br />
-        <label><input type="color" data-attr="background-color" data-element="body" />Background color</label><br />
-        <label><select data-attr="font-size" data-element="p"><option value="10px">10</option><option value="12px">12</option><option value="16px">16</option></select>Text size</label><br />
-        <label><select data-attr="background-color" data-element=".module"><option value="darkred">Red</option><option value="white">White</option><option value="lightgray">Grey</option></select>Module bg</label><br />
+        <fieldset>
+            <legend>Bread</legend>
+            <input type="number" min="0" max="5" step="0.5" data-class=".bread" data-attr="lineHeight" />LH<br />
+            <input class="jscolor" data-class=".bread" data-attr="color" data-format="#_">
+            <select data-class=".bread" data-attr="fontFamily" data-format="_">
+                <option value="Helvetica">Helvetica</option>
+                <option value="Times New Roman">Times</option>
+                <option value="Arial">Arial</option>
+                <option value="Comic Sans">CS</option>
+            </select>
+            <input type="number" min="10" max="24" data-class=".bread" data-attr="fontSize" data-format="_px" placeholder="FontSize"/>
+        </fieldset>
+        <fieldset>
+            <legend>Background</legend>
+            <input class="jscolor" data-class="body" data-attr="background-color" data-format="#_" />
+            @*<select data-class="body" data-attr="background-color">
+                <option value="white">White</option><option value="red">Red</option><option value="green">Green</option>
+            </select>*@
+        </fieldset>
+        <fieldset>
+            <legend>Page Content</legend>
+            <input type="number" min="400" max="900" step="50" data-class=".page-container" data-attr="max-width" data-format="_px"/>
+        </fieldset>
         <button id="savebtn">Save</button>
      </div>
     <div id="menu-modules">
-        <div class="module"><h5>Heading</h5><p>Text underneath.</p></div>
-        <div class="module"><h5>Heading</h5><p>Aliquam porta, ipsum quis porta sollicitudin, justo turpis tristique eros, ac tincidunt lacus ligula eu mi. Duis tempor vitae ipsum id consequat. Maecenas ullamcorper ante non odio consectetur, ac tristique metus fringilla.</p></div>
+        <div class="module"><h5>Heading</h5><p class="bread">Text underneath.</p></div>
+        <div class="module"><h5>Heading</h5><p class="bread">Aliquam porta, ipsum quis porta sollicitudin, justo turpis tristique eros, ac tincidunt lacus ligula eu mi. Duis tempor vitae ipsum id consequat. Maecenas ullamcorper ante non odio consectetur, ac tristique metus fringilla.</p></div>
         <div class="module"><h5>Footer</h5><p>003 555 221 - asd@test.com</p></div>
         <div class="module">
             <div style="background-color: darkred; color: whitesmoke; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-size: 26px; text-align: center">LOGO</div>
@@ -34,63 +54,82 @@
 @section scripts
 {
     <script>
+        $(function () {
+            $('input, select').each(function (i, v) {
+                var el = $(this).attr('data-class');
+                var att = $(this).attr('data-attr');
+                console.log(el, att, getUserStyle(att, el), $(this).attr('data-format'));
+                setVal($(this), getUserStyle(att, el));
+                //$(this).val(getUserStyle(att, el));
+            });
+            $('select, input').on('change', function () {
+                //console.log('ONCHANGE:', $(this).attr('data-class'), $(this).attr('data-attr'), $(this).val());
+                changeStyle($(this).attr('data-class'), $(this).attr('data-attr'), getVal($(this)));
+            });
 
+        });
 
+        function getUserStyle(style, selector) {
+            //var myRules = document.getElementById('userStyle').sheet.rules;
+            return getCssStyle(document.getElementById('userStyle').sheet.rules, selector, style) || getCssStyle(document.getElementById('arcStyle').sheet.rules, selector, style)
+            //return 'INGEN!';
+        }
+        function getCssStyle(rules, selector, style) {
+            for (var j = 0; j < rules.length; j++) {
+                if (rules[j].selectorText && rules[j].selectorText.toLowerCase() === selector.toLowerCase()) {
+                    return rules[j].style[style];
+                }
+            }
+            return null;
+        }
         function changeStyle(element, attr, val) {
             console.log('Changing', element, attr, 'to', val);
-            jss.set(element, {
-                [attr]: val
-            });
+            var myObj = new Object;
+            myObj[attr] = val;
+            jss.set(element, myObj);
             //jss.set('p', { 'color': 'red' });
             //console.log('TEST:', { attr : val})
             console.log(JSON.stringify(jss.get()));
         }
+
         $(function () {
             $('#template').sortable({ addClasses: false }); //, items: "div:not(.module-required)"
             $('#menu-modules').sortable({ connectWith: '#template', helper: 'clone', addClasses: false });
-            $('#menu-settings select, #menu-settings input').on('change', function () {
-                changeStyle($(this).attr('data-element'), $(this).attr('data-attr'), $(this).val());
-            });
+            //$('#menu-settings select, #menu-settings input').on('change', function () {
+            //    changeStyle($(this).attr('data-element'), $(this).attr('data-attr'), $(this).val());
+            //});
             $('#savebtn').on('click', function () {
-                console.log(jss.get());
-                @*$.post('@Url.Action("SaveTemplate", new { id = Model.TemplateId })', { TemplateHtml: $('main').html(), Styles: jss.get() }, function (data) {
+                //console.log(jss.get());
+                var mainHtml = $('#template').html();
+                $('.tag').each(function (i, v) {
+                    console.log('Replacing', $(this).attr('data-tag'))
+                    $(this).replaceWith('[' + $(this).attr('data-tag') + ']');
+                });
+                @*$.post('@Url.Action("SaveTemplate", new { id = Model.TemplateId })', { Html: $('#template').html(), cssStyles: jss.get() }, function (data) {
                     console.log(data);
                 });*@
-                $.post('@Url.Action("SaveTemplate", new { id = Model.TemplateId })', { Html: $('#template').html(), cssStyles: jss.get() }, function (data) {
+                var model = {
+                    TemplateHtml: $('#template').html(),
+                    NewStyles: jss.get(),
+                    TemplateName: '@Model.TemplateName Saved'
+                }
+                $.post('@Url.Action("SaveTemplate2", new { id = Model.TemplateId })', model, function (data) {
                     console.log(data);
                 });
+                $('#template').html(mainHtml);
                 //$('<style>').appendTo('#template').html('h5 { background-color: red; }');
             });
-            @*var r = getRules();
-            $.each(r, function (i, v) {
-                if (v.selectorText == 'h5') {
-                    console.log('It exists:', v);
-                    v.style['font-size'] = '24px';
-                    v.style.color = 'blue';
-                    console.log('It changed:', v);
-                    $.post('@Url.Action("TestPost", new { id = Model.TemplateId })', { html: $('#template').html() }, function (data) {
-                        console.log(data);
-                    });
-                }
-            });*@
+
         });
-        //function getStyle(title) {
-        //    var sheets = document.styleSheets;
-        //    for (var i = 0; i < sheets.length; i++) {
-        //        if (sheets[i].title == title) {
-        //            return sheets[i];
-        //        }
-        //    }
-        //}
-        //function getRules() {
-        //    var sheets = document.styleSheets;
-        //    for (var i = 0; i < sheets.length; i++) {
-        //        if (sheets[i].title == 'userstyle') {
-        //            sheets[i].insertRule("p { font-weight: bold; }", 1);
-        //            return sheets[i].rules;
-        //        }
-        //    }
-        //}
+        //FIX FOR UNITS
+        function getVal(element) {
+            var f = element.attr('data-format');
+            return f ? f.replace('_', element.val()) : element.val();
+        }
+        function setVal(element, value) {
+            var f = element.attr('data-format');
+            element.val(f ? value.replace(f.replace('_', ''), '') : value);
+        }
     </script>
 }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Architect.Models
 {
@@ -12,17 +13,32 @@ namespace Architect.Models
         public List<Content> Content { get; set; }
     }
 
-    public class EditTemplateViewModel
+    //public class EditTemplateViewModel
+    //{
+    //    public string TemplateHtml { get; set; }
+    //    public List<CMSStyle> ElementStyles { get; set; }
+    //}
+
+    public class DesignTemplateViewModel
     {
+        public string TemplateName { get; set; }
+        public int TemplateId { get; set; }
         public string TemplateHtml { get; set; }
-        public List<CMSStyle> ElementStyles { get; set; }
+        public string CssUrl { get; set; }
+        public SelectList PageSelectList { get; set; }
     }
 
-    public class CMSStyle
+    public class SaveTemplateViewModel
     {
-        public string ElementName { get; set; }
-        public Dictionary<string, string> Styles { get; set; }
+        public string TemplateName { get; set; }
+        public string TemplateHtml { get; set; }
+        public Dictionary<string, Dictionary<string, string>> NewStyles { get; set; }
     }
+    //public class CMSStyle
+    //{
+    //    public string ElementName { get; set; }
+    //    public Dictionary<string, string> Styles { get; set; }
+    //}
 
     public class EditPageViewModel
     {

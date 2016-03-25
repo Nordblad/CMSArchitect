@@ -1,0 +1,18 @@
+﻿/*body {
+    background-color: #CCC;
+}*/
+.page-container {
+    max-width: 600px;
+    background-color: #ffffff;
+}
+h5 {
+    color: #1e1e1e;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 22px;
+}
+.bread {
+    font-family: 'Times New Roman';
+    color: #000000;
+    line-height: 1;
+    font-size: 16px;
+}
